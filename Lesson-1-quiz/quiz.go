@@ -21,17 +21,18 @@ func main() {
 
 	fmt.Printf("Are you ready to start? (y/n)\n")
 	fmt.Scanln(&begin)
-	length := flag.Int("time", 30, "Timer for the quiz, in seconds")
+	length := flag.Int("time", 30, "Flag for specifying timer for the quiz, in seconds.")
+	fName := flag.String("file", "quizFile.csv", "Flag for specifying the CSV containing quiz questions.")
 	flag.Parse()
 
 	if begin == "y" {
-		takeQuiz(*length)
+		takeQuiz(*length, *fName)
 	} else {
 		os.Exit(0)
 	}
 }
 
-func takeQuiz(length int) {
+func takeQuiz(length int, fName string) {
 	var correctCount int32
 	var counter int32
 	var ans string
@@ -41,7 +42,7 @@ func takeQuiz(length int) {
 	the name here as well.
 	*/
 
-	quizFile, _ := os.Open("quizFile.csv")
+	quizFile, _ := os.Open(fName)
 	reader := csv.NewReader(bufio.NewReader(quizFile))
 	timer := time.NewTimer(time.Second * time.Duration(length))
 
